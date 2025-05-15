@@ -1,19 +1,27 @@
+import React from 'react';
+import { Card, Button, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export default function ProductCard({ product }) {
-  const inStock = product.stock > 0;
+const ProductCard = ({ product }) => {
+  const stockBadge = product.stock > 0
+    ? <Badge bg="success">In Stock</Badge>
+    : <Badge bg="danger">Out of Stock</Badge>;
 
   return (
-    <div className="card h-100">
-      <img src={product.thumbnail} className="card-img-top" alt={product.title} style={{ height: '200px', objectFit: 'cover' }} />
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{product.title}</h5>
-        <p className="card-text">${product.price}</p>
-        <span className={`badge ${inStock ? 'bg-success' : 'bg-danger'} mb-2`}>
-          {inStock ? 'In Stock' : 'Out of Stock'}
-        </span>
-        <Link to={`/product/${product.id}`} className="btn btn-primary mt-auto">View Details</Link>
-      </div>
-    </div>
+    <Card className="h-100">
+      <Card.Img variant="top" src={product.thumbnail} height="200" style={{ objectFit: 'cover' }} />
+      <Card.Body>
+        <Card.Title>{product.title}</Card.Title>
+        <Card.Text>
+          ${product.price} <br />
+          {stockBadge}
+        </Card.Text>
+        <Link to={`/products/${product.id}`}>
+          <Button variant="primary">View Details</Button>
+        </Link>
+      </Card.Body>
+    </Card>
   );
-}
+};
+
+export default ProductCard;
